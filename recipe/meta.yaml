@@ -1,17 +1,17 @@
 {% set name = "tantivy" %}
-{% set version = "0.22.0" %}
+{% set version = "0.22.2" %}
 
 package:
   name: {{ name|lower }}-py
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/tantivy-{{ version }}.tar.gz
-  sha256: dce07fa2910c94934aa3d96c91087936c24e4a5802d839625d67edc6d1c95e5c
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/tantivy-{{ version }}.tar.gz
+  sha256: b3d0f19271365ccf6e69f0318ea0c3c3438515fee453618977787d6b41da833a
 
 build:
   noarch: python
-  script: 
+  script:
     - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
     - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
@@ -48,7 +48,7 @@ about:
   home: https://github.com/quickwit-oss/tantivy
   summary: Fast full-text search engine library written in Rust
   license: MIT
-  license_file: 
+  license_file:
     - THIRDPARTY.yml
     - LICENSE
 
