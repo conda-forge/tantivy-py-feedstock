@@ -6,7 +6,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/tantivy-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/tantivy-{{ version }}.tar.gz
   sha256: dce07fa2910c94934aa3d96c91087936c24e4a5802d839625d67edc6d1c95e5c
 
 build:
@@ -14,7 +14,7 @@ build:
   script: 
     - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
     - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  number: 0
+  number: 1
   missing_dso_whitelist:
     - "*lib/libgcc_s.so.1"  # [linux]
 
@@ -29,12 +29,12 @@ requirements:
     - cargo-bundle-licenses
 
   host:
-    - python >=3.8
+    - python {{ python_min }}
     - maturin <=1.3.2
     - pip
 
   run:
-    - python >=3.8
+    - python >={{ python_min }}
 
 test:
   imports:
@@ -43,6 +43,7 @@ test:
     - pip check
   requires:
     - pip
+    - python {{ python_min }}
 
 about:
   home: https://github.com/quickwit-oss/tantivy
