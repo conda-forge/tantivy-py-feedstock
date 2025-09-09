@@ -1,5 +1,5 @@
 {% set name = "tantivy" %}
-{% set version = "0.22.2" %}
+{% set version = "0.25.0" %}
 
 package:
   name: {{ name|lower }}-py
@@ -7,14 +7,14 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/tantivy-{{ version }}.tar.gz
-  sha256: b3d0f19271365ccf6e69f0318ea0c3c3438515fee453618977787d6b41da833a
+  sha256: 587acbaa08a6287eaa7591c21bc5af5a577c8a3c347b1121032241a5912f17b6
 
 build:
   noarch: python
   script:
     - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
     - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  number: 1
+  number: 0
   missing_dso_whitelist:
     - "*lib/libgcc_s.so.1"  # [linux]
 
