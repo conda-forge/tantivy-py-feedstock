@@ -3,6 +3,7 @@ schema_version: 1
 
 context:
   version: 0.25.0
+  maturin_max: 1.3.2
 
 package:
   name: tantivy-py
@@ -14,7 +15,6 @@ source:
 
 build:
   number: 0
-  noarch: python
   script:
     - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
     - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
@@ -28,17 +28,30 @@ requirements:
     - cargo-bundle-licenses
     - cmake
     - make
+    - if: build_platform != target_platform
+      then:
+        - maturin <=${{ maturin_max }}
+        - python
+        - cross_python_${{ target_platform }}
   host:
-    - python ${{ python_min }}.*
-    - maturin <=1.3.2
+    - maturin <=${{ maturin_max }}
     - pip
+    - python
   run:
-    - python >=${{ python_min }}
+    - python
 
 tests:
   - python:
       imports: tantivy
-      pip_check: true
+  - requirements:
+      run:
+        - pytest-cov
+    files:
+      source:
+        - tests/
+    script:
+      - coverage --source=tantivy --branch run -m pytest -vv --tb=long --color=yes
+      - coverage report --show-missing --skip-covered --fail-under=100
 
 about:
   summary: Fast full-text search engine library written in Rust
