@@ -35,9 +35,9 @@ requirements:
     - make
     - if: build_platform != target_platform
       then:
+        - cross-python_${{ target_platform }}
         - maturin >=${{ maturin_min }},<${{ maturin_max }}
         - python
-        - cross_python_${{ target_platform }}
   host:
     - maturin >=${{ maturin_min }},<${{ maturin_max }}
     - pip
