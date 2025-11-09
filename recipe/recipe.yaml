@@ -3,7 +3,9 @@ schema_version: 1
 
 context:
   version: "0.25.0"
-  maturin_max: "1.3.2"
+  # see patch below
+  maturin_min: "1.0"
+  maturin_max: "2.0"
 
 package:
   name: tantivy-py
@@ -12,6 +14,9 @@ package:
 source:
   url: https://pypi.org/packages/source/t/tantivy/tantivy-${{ version }}.tar.gz
   sha256: 587acbaa08a6287eaa7591c21bc5af5a577c8a3c347b1121032241a5912f17b6
+  patches:
+    # from https://github.com/quickwit-oss/tantivy-py/pull/568
+    - 568-bump-maturin.patch
 
 build:
   number: 0
@@ -30,11 +35,11 @@ requirements:
     - make
     - if: build_platform != target_platform
       then:
-        - maturin <=${{ maturin_max }}
+        - maturin >=${{ maturin_min }},<${{ maturin_max }}
         - python
         - cross_python_${{ target_platform }}
   host:
-    - maturin <=${{ maturin_max }}
+    - maturin >=${{ maturin_min }},<${{ maturin_max }}
     - pip
     - python
   run:
@@ -46,6 +51,7 @@ tests:
   - requirements:
       run:
         - pytest-cov
+        - mktestdocs
     files:
       source:
         - tests/
@@ -59,8 +65,10 @@ about:
   license_file:
     - THIRDPARTY.yml
     - LICENSE
-  homepage: https://github.com/quickwit-oss/tantivy
+  homepage: https://github.com/quickwit-oss/tantivy-py
+  documentation: https://tantivy-py.readthedocs.io
 
 extra:
   recipe-maintainers:
     - mediocretech
+    - bollwvyl
