@@ -15,7 +15,7 @@ source:
   url: https://pypi.org/packages/source/t/tantivy/tantivy-${{ version }}.tar.gz
   sha256: 587acbaa08a6287eaa7591c21bc5af5a577c8a3c347b1121032241a5912f17b6
   patches:
-    # from https://github.com/quickwit-oss/tantivy-py/pull/568
+    # neeed for python 3.14, from https://github.com/quickwit-oss/tantivy-py/pull/568
     - 568-bump-maturin.patch
 
 build:
