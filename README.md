@@ -332,6 +332,6 @@ In order to produce a uniquely identifiable distribution:
 Feedstock Maintainers
 =====================
 
-* [@bollwvyl](https://github.com/bollwvyl/)
+* [@bollwyvl](https://github.com/bollwyvl/)
 * [@mediocretech](https://github.com/mediocretech/)
 
