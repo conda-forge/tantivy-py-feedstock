@@ -1,0 +1,53 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+schema_version: 1
+
+context:
+  version: 0.25.0
+
+package:
+  name: tantivy-py
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/t/tantivy/tantivy-${{ version }}.tar.gz
+  sha256: 587acbaa08a6287eaa7591c21bc5af5a577c8a3c347b1121032241a5912f17b6
+
+build:
+  number: 0
+  noarch: python
+  script:
+    - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
+    - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  build:
+    - ${{ compiler("c") }}
+    - ${{ compiler("cxx") }}
+    - ${{ compiler("rust") }}
+    - ${{ stdlib("c") }}
+    - cargo-bundle-licenses
+    - cmake
+    - make
+  host:
+    - python ${{ python_min }}.*
+    - maturin <=1.3.2
+    - pip
+  run:
+    - python >=${{ python_min }}
+
+tests:
+  - python:
+      imports: tantivy
+      pip_check: true
+
+about:
+  summary: Fast full-text search engine library written in Rust
+  license: MIT
+  license_file:
+    - THIRDPARTY.yml
+    - LICENSE
+  homepage: https://github.com/quickwit-oss/tantivy
+
+extra:
+  recipe-maintainers:
+    - mediocretech
