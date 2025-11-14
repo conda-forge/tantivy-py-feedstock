@@ -1,0 +1,74 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+schema_version: 1
+
+context:
+  version: "0.25.0"
+  # see patch below
+  maturin_min: "1.0"
+  maturin_max: "2.0"
+
+package:
+  name: tantivy-py
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/t/tantivy/tantivy-${{ version }}.tar.gz
+  sha256: 587acbaa08a6287eaa7591c21bc5af5a577c8a3c347b1121032241a5912f17b6
+  patches:
+    # neeed for python 3.14, from https://github.com/quickwit-oss/tantivy-py/pull/568
+    - 568-bump-maturin.patch
+
+build:
+  number: 0
+  script:
+    - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
+    - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  build:
+    - ${{ compiler("c") }}
+    - ${{ compiler("cxx") }}
+    - ${{ compiler("rust") }}
+    - ${{ stdlib("c") }}
+    - cargo-bundle-licenses
+    - cmake
+    - make
+    - if: build_platform != target_platform
+      then:
+        - cross-python_${{ target_platform }}
+        - maturin >=${{ maturin_min }},<${{ maturin_max }}
+        - python
+  host:
+    - maturin >=${{ maturin_min }},<${{ maturin_max }}
+    - pip
+    - python
+  run:
+    - python
+
+tests:
+  - python:
+      imports: tantivy
+  - requirements:
+      run:
+        - pytest-cov
+        - mktestdocs
+    files:
+      source:
+        - tests/
+    script:
+      - coverage run --source=tantivy --branch -m pytest -vv --tb=long --color=yes
+      - coverage report --show-missing --skip-covered --fail-under=100
+
+about:
+  summary: Fast full-text search engine library written in Rust
+  license: MIT
+  license_file:
+    - THIRDPARTY.yml
+    - LICENSE
+  homepage: https://github.com/quickwit-oss/tantivy-py
+  documentation: https://tantivy-py.readthedocs.io
+
+extra:
+  recipe-maintainers:
+    - mediocretech
+    - bollwyvl
