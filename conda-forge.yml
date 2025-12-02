@@ -1,6 +1,7 @@
 bot:
   automerge: true
   inspection: hint-grayskull
+noarch_platforms: linux_64
 build_platform:
   linux_aarch64: linux_64
   linux_ppc64le: linux_64

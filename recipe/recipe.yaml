@@ -14,15 +14,12 @@ package:
 source:
   url: https://pypi.org/packages/source/t/tantivy/tantivy-${{ version }}.tar.gz
   sha256: 68a3314699a7d18fcf338b52bae8ce46a97dde1128a3e47e33fa4db7f71f265e
-  patches:
-    # neeed for python 3.14, from https://github.com/quickwit-oss/tantivy-py/pull/568
-    - 568-bump-maturin.patch
 
 build:
   number: 0
   script:
     - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
-    - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+    - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation --disable-pip-version-check
 
 requirements:
   build:
