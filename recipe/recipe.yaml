@@ -2,7 +2,7 @@
 schema_version: 1
 
 context:
-  version: "0.25.0"
+  version: "0.25.1"
   # see patch below
   maturin_min: "1.0"
   maturin_max: "2.0"
@@ -13,16 +13,13 @@ package:
 
 source:
   url: https://pypi.org/packages/source/t/tantivy/tantivy-${{ version }}.tar.gz
-  sha256: 587acbaa08a6287eaa7591c21bc5af5a577c8a3c347b1121032241a5912f17b6
-  patches:
-    # neeed for python 3.14, from https://github.com/quickwit-oss/tantivy-py/pull/568
-    - 568-bump-maturin.patch
+  sha256: 68a3314699a7d18fcf338b52bae8ce46a97dde1128a3e47e33fa4db7f71f265e
 
 build:
   number: 0
   script:
     - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
-    - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+    - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation --disable-pip-version-check
 
 requirements:
   build:
