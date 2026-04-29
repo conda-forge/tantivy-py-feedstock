@@ -3,9 +3,6 @@ schema_version: 1
 
 context:
   version: "0.26.0"
-  # see patch below
-  maturin_min: "1.0"
-  maturin_max: "2.0"
 
 package:
   name: tantivy-py
@@ -18,14 +15,11 @@ source:
 build:
   number: 0
   script:
-    - if: target_platform == "linux-ppc64le"
-      then:
-        - env | grep FLAGS
-        - export CFLAGS="${CFLAGS//-fno-plt/}"
-        - export CXXFLAGS="${CXXFLAGS//-fno-plt/}"
-        - env | grep FLAGS
-    - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
-    - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation --disable-pip-version-check
+    env:
+      CARGO_TARGET_POWERPC64LE_UNKNOWN_LINUX_GNU_LINKER: $CC
+    content:
+      - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
+      - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation --disable-pip-version-check
 
 requirements:
   build:
@@ -36,13 +30,8 @@ requirements:
     - cargo-bundle-licenses
     - cmake
     - make
-    - if: build_platform != target_platform
-      then:
-        - cross-python_${{ target_platform }}
-        - maturin >=${{ maturin_min }},<${{ maturin_max }}
-        - python
   host:
-    - maturin >=${{ maturin_min }},<${{ maturin_max }}
+    - maturin >=1.0,<2.0
     - pip
     - python
   run:
