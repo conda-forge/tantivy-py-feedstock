@@ -62,7 +62,8 @@ about:
   license_file:
     - THIRDPARTY.yml
     - LICENSE
-  homepage: https://github.com/quickwit-oss/tantivy-py
+  homepage: https://pypi.org/project/tantivy
+  repository: https://github.com/quickwit-oss/tantivy-py
   documentation: https://tantivy-py.readthedocs.io
 
 extra:
