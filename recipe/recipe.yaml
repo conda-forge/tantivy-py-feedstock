@@ -18,6 +18,12 @@ build:
     env:
       CARGO_TARGET_POWERPC64LE_UNKNOWN_LINUX_GNU_LINKER: $CC
     content:
+      - if: target_platform == "linux-ppc64le"
+        then:
+          - env | grep FLAGS
+          - export CFLAGS="${CFLAGS//-fno-plt/}"
+          - export CXXFLAGS="${CXXFLAGS//-fno-plt/}"
+          - env | grep FLAGS
       - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
       - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation --disable-pip-version-check
 
