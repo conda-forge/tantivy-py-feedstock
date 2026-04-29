@@ -3,11 +3,13 @@ About tantivy-py-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/tantivy-py-feedstock/blob/main/LICENSE.txt)
 
-Home: https://github.com/quickwit-oss/tantivy-py
+Home: https://pypi.org/project/tantivy
 
 Package license: MIT
 
 Summary: Fast full-text search engine library written in Rust
+
+Development: https://github.com/quickwit-oss/tantivy-py
 
 Documentation: https://tantivy-py.readthedocs.io/
 
