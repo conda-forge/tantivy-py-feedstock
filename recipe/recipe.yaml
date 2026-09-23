@@ -2,15 +2,15 @@
 schema_version: 1
 
 context:
-  version: "0.26.0"
+  version: "0.26.2"
 
 package:
   name: tantivy-py
   version: ${{ version }}
 
 source:
-  url: https://pypi.org/packages/source/t/tantivy/tantivy-${{ version }}.tar.gz
-  sha256: 7c9507fcc62bac4ef1d40b1ed37ff7fa07e44b5043b30288f63bcf4fdc62644a
+  url: https://files.pythonhosted.org/packages/33/e2/019c16b6f498d826c0458f4a40df86adfccbc8c9670f3e7c0f6dadce2f2d/tantivy-${{ version }}.tar.gz
+  sha256: 93519eb9f18c298a6779d132505d67f158741318413c181e9ec488381edf2721
 
 build:
   number: 0
