@@ -19,6 +19,7 @@ build:
       CARGO_PROFILE_RELEASE_STRIP: symbols
       CARGO_PROFILE_RELEASE_LTO: fat
       CARGO: cargo-auditable-wrapper${{ ".bat" if win else ".sh" }}
+      PYO3_USE_ABI3_FORWARD_COMPATIBILITY: "${{ 1 if match(python, '3.15.*') else 0 }}"
     content:
       - if: win
         then:
