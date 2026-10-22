@@ -2,7 +2,7 @@
 schema_version: 1
 
 context:
-  version: "0.26.2"
+  version: "0.27.0"
 
 package:
   name: tantivy-py
@@ -10,10 +10,10 @@ package:
 
 source:
   url: https://files.pythonhosted.org/packages/source/t/tantivy/tantivy-${{ version }}.tar.gz
-  sha256: 93519eb9f18c298a6779d132505d67f158741318413c181e9ec488381edf2721
+  sha256: 871d0dc8d3b246d6b8cbf99a2f0ec929eb4e3341ecb3a63e3c7c11c6715cd03d
 
 build:
-  number: 2
+  number: 0
   script:
     env:
       CARGO_PROFILE_RELEASE_STRIP: symbols
