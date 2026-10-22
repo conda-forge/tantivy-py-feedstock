@@ -3,6 +3,7 @@ schema_version: 1
 
 context:
   version: "0.27.0"
+  python_check_max: "3.15"
 
 package:
   name: tantivy-py
@@ -74,6 +75,13 @@ tests:
   - python:
       imports: tantivy
       pip_check: true
+      python_version:
+        - if: is_abi3
+          then:
+            - ${{ python_min }}.*
+            - ${{ python_check_max }}.*
+          else:
+            - "*"
   - requirements:
       run:
         - pytest-cov
