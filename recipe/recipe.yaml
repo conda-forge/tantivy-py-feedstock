@@ -14,6 +14,8 @@ source:
 
 build:
   number: 0
+  python:
+    version_independent: ${{ is_abi3 }}
   script:
     env:
       CARGO_PROFILE_RELEASE_STRIP: symbols
@@ -47,9 +49,19 @@ requirements:
   host:
     - maturin >=1.9.3,<2.0
     - pip
-    - python
+    - if: is_abi3
+      then:
+        - python ${{ python_min }}.*
+        - python-abi3
+      else:
+        - python
   run:
-    - python
+    - if: is_abi3
+      then:
+        - python >=${{ python_min }}
+        - python-abi3
+      else:
+        - python
 
 tests:
   - package_contents:
@@ -66,12 +78,20 @@ tests:
       run:
         - pytest-cov
         - mktestdocs
+        - if: is_abi3
+          then:
+            - python ${{ python_min }}.*
+            - abi3audit
     files:
       source:
-        - tests/
+        - tests/**
     script:
       - coverage run --source=tantivy --branch -m pytest -vv --tb=long --color=yes
       - coverage report --show-missing --skip-covered --fail-under=100
+      - if: is_abi3 and unix
+        then: abi3audit -s -v --assume-minimum-abi3 ${{ python_min }} "${SP_DIR}/tantivy/tantivy.abi3.so"
+      - if: is_abi3 and win
+        then: abi3audit -s -v --assume-minimum-abi3 ${{ python_min }} "%SP_DIR%\tantivy\tantivy.pyd"
 
 about:
   summary: Fast full-text search engine library written in Rust
